@@ -1,26 +1,33 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define LIMIT 97
+const int MAX = 97;  // Maximale Zahl, bis zu der Primzahlen gesucht werden
 
-void sieb_des_eratosthenes(bool liste[], int grenze) {
-    for (int faktor = 2; faktor * faktor <= grenze; faktor++) {
-        if (!liste[faktor]) {
-            for (int vielfaches = faktor * faktor; vielfaches <= grenze; vielfaches += faktor) {
-                liste[vielfaches] = true;
+// Sieb des Eratosthenes zur Markierung von Primzahlen
+void sieb(bool prime[], int grenze) {
+    for (int i = 2; i * i <= grenze; i++) {
+        if (prime[i]) {
+            for (int j = i * i; j <= grenze; j += i) {
+                prime[j] = false;
             }
         }
     }
 }
 
 int main() {
-    bool kein_prim[LIMIT + 1] = { false };
-    sieb_des_eratosthenes(kein_prim, LIMIT);
+    bool prime[MAX + 1];  // Index 0 bis MAX erlaubt
+    for (int i = 0; i <= MAX; i++) {
+        prime[i] = true;
+    }
 
-    printf("Primzahlen bis %d:\n", LIMIT);
-    for (int zahl = 2; zahl <= LIMIT; zahl++) {
-        if (!kein_prim[zahl]) {
-            printf("-> %d ist eine Primzahl\n", zahl);
+    prime[0] = false;  // 0 ist keine Primzahl
+    prime[1] = false;  // 1 ist keine Primzahl
+
+    sieb(prime, MAX);
+
+    for (int i = 2; i <= MAX; i++) {
+        if (prime[i]) {
+            printf("%d\n", i);
         }
     }
 
