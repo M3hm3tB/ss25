@@ -1,65 +1,28 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-const int MAX = 97;
+#define LIMIT 97
 
-bool check_if_prime(int number) {
-	int i;
-	for(i=2; i<number; i++) {
-		int division = number % i;
-		if (division == 0) {
-			return false;
-		}
-	}
-	return true;
+void sieb_des_eratosthenes(bool liste[], int grenze) {
+    for (int faktor = 2; faktor * faktor <= grenze; faktor++) {
+        if (!liste[faktor]) {
+            for (int vielfaches = faktor * faktor; vielfaches <= grenze; vielfaches += faktor) {
+                liste[vielfaches] = true;
+            }
+        }
+    }
 }
 
-
-/*
- * Funktion: calculate_multiply
- * -----------------------------------
- * Durchläuft das array und setzt alle vielfachen von prime_number auf true.
- *
- * Parameter:
- *   prime - das array welche die prim makiert.
- *   MAX - ist die constante (muss nicht übergeben werden, aber dadurch liest
- *         sich der code besser).
- *   prime_number - das element das für prim gültig makiert wurde.
- */
-void calculate_multiply(bool prime[], int MAX, int prime_number) {
-	int i;
-	for (i= 2 * prime_number; i<MAX; i += prime_number) {
-		prime[i] = true;
-	}
-}
-
-
-/*
- * Funktion: main
- * -----------------------------------
- * Erstellt ein Array. (Initalisiert ist ein leeres Array Feld in C immer false).
- *
- * Parameter:
- *   hat keine.
- *
- * Rückgabewert:
- *   gibt alle Index Werte aus für die das array false gespeichert hat.
- */
 int main() {
-	bool prime[MAX];
-	int i;
+    bool kein_prim[LIMIT + 1] = { false };
+    sieb_des_eratosthenes(kein_prim, LIMIT);
 
-	for (i=2; i<MAX; i++){
-		if (prime[i] == false) {
-			if (check_if_prime(i)==true) {
-				calculate_multiply(prime, MAX, i);
-			}
-		}
-	}
-	int j;
-	for (j = 0; j<MAX+1; j++) {
-		if (prime[j] == false) {
-			printf("%d\n", j);
-		}
-	}
+    printf("Primzahlen bis %d:\n", LIMIT);
+    for (int zahl = 2; zahl <= LIMIT; zahl++) {
+        if (!kein_prim[zahl]) {
+            printf("-> %d ist eine Primzahl\n", zahl);
+        }
+    }
+
+    return 0;
 }
