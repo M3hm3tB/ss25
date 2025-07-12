@@ -1,0 +1,4 @@
+Hallo <NAME>,
+Sie haben gewonnen! Senden Sie all Ihr
+Geld in Bitcoin an die folgende Adresse,
+um Ihren Gewinn einzulösen...
