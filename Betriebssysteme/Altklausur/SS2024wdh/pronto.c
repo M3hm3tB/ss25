@@ -19,7 +19,7 @@ int main(void){
 
 
 char *read_from_file(const char*filename){
-    FILE *file = fopen(filename, r);
+    FILE *file = fopen(filename, "r");
     if (!file) die ("fopen");
 
     size_t bufsize = 10;
